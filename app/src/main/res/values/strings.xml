@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">title_page</string>
+    <string name="title_activity_login">App name</string>
+    <string name="TitlePage">title_page</string>
+</resources>

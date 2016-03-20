@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="15dp"
+    tools:context="com.example.ismael.genericapp.NewRecipeActivity">
+
+    <TextView
+        android:id="@+id/textDescription"
+        android:text="Descrição"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <EditText
+        android:id="@+id/editDescription"
+        android:layout_below="@id/textDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/textIngredients"
+        android:text="Ingredientes"
+        android:layout_below="@id/editDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Spinner
+        android:id="@+id/recipe"
+        android:layout_below="@id/textIngredients"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <ImageView
+        android:id="@+id/thumbnail"
+        android:layout_below="@id/recipe"
+        android:layout_width="match_parent"
+        android:layout_height="200dp" />
+
+
+    <Button
+        android:id="@+id/btnNewRecipe"
+        android:layout_marginTop="30dp"
+        android:text="Cadastrar"
+        android:layout_below="@id/thumbnail"
+        android:layout_width="match_parent"
+        android:textColor="#FFFFFF"
+        android:background="@color/colorGreen"
+        android:layout_height="wrap_content" />
+
+
+</RelativeLayout>
