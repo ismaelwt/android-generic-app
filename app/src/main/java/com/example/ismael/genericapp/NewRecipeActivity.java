@@ -133,6 +133,9 @@ public class NewRecipeActivity extends GenericActivity {
 
                     Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE_SECURE);
                     startActivityForResult(intent, REQUEST_IMAGE_CAPTURE);
+                }else {
+                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE_SECURE);
+                    startActivityForResult(intent, REQUEST_IMAGE_CAPTURE);
                 }
             }else {
 
