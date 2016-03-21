@@ -76,7 +76,7 @@ public class LoginActivity extends GenericActivity {
                     user.setUsername(editLogin.getText().toString());
                     user.setPassword(editPass.getText().toString());
 
-                    new AsyncTaskPost(LoginActivity.this, "http://192.168.25.11:3000/cadastrar", "CADASTRAR").execute(new Gson().toJson(user));
+                    new AsyncTaskPost(LoginActivity.this, "https://powerful-plains-95757.herokuapp.com/cadastrar", "CADASTRAR").execute(new Gson().toJson(user));
                 } else if (editPass.getText().toString().equals(editConfPass.getText().toString())) {
                     editPass.setError("Senhas diferentes");
                     editConfPass.setError("Senhas diferentes");
@@ -95,7 +95,7 @@ public class LoginActivity extends GenericActivity {
                     user.setUsername(editLogin.getText().toString());
                     user.setPassword(editPass.getText().toString());
                     // IP EXTERNO   https://infinite-thicket-16564.herokuapp.com/
-                    new AsyncTaskPost(LoginActivity.this, "http://192.168.25.11:3000/login", "LOGIN").execute(new Gson().toJson(user));
+                    new AsyncTaskPost(LoginActivity.this, "https://powerful-plains-95757.herokuapp.com/login", "LOGIN").execute(new Gson().toJson(user));
                 }else {
                     editLogin.setError("Invalid Username");
                     editPass.setError("Invalido Password");

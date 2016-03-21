@@ -108,7 +108,7 @@ public class MainActivity extends GenericActivity {
 
 
                 if(oidRemove != null){
-                    new AsyncTaskDelete(MainActivity.this, "http://192.168.25.11:3000/delete/" + oidRemove, "DELETE").execute();
+                    new AsyncTaskDelete(MainActivity.this, "https://powerful-plains-95757.herokuapp.com/delete/" + oidRemove, "DELETE").execute();
                 }
 
                 return false;
@@ -117,7 +117,7 @@ public class MainActivity extends GenericActivity {
     }
 
     private void getNewRecipe(){
-        new AsyncTaskGet(MainActivity.this, "http://192.168.25.11:3000/get-recipes/", "GET_RECEITA").execute();
+        new AsyncTaskGet(MainActivity.this, "https://powerful-plains-95757.herokuapp.com/get-recipes/", "GET_RECEITA").execute();
     }
 
     @Override

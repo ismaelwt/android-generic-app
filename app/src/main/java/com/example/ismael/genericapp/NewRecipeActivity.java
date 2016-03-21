@@ -61,7 +61,7 @@ public class NewRecipeActivity extends GenericActivity {
 
 
         if(getIntent().hasExtra("id")){
-            new AsyncTaskGet(NewRecipeActivity.this, "http://192.168.25.11:3000/get-recipes/"+ getIntent().getStringExtra("id") , "GET_ONE").execute();
+            new AsyncTaskGet(NewRecipeActivity.this, "https://powerful-plains-95757.herokuapp.com/get-recipes/"+ getIntent().getStringExtra("id") , "GET_ONE").execute();
         }
 
         editDescription = (EditText) findViewById(R.id.editDescription);
@@ -98,12 +98,12 @@ public class NewRecipeActivity extends GenericActivity {
 
                 //https://powerful-plains-95757.herokuapp.com
                 //http://192.168.25.11:3000
-                new AsyncTaskPost(NewRecipeActivity.this, "http://192.168.25.11:3000/cadastrar-receita", "POST_RECEITA").execute(new Gson().toJson(recipe));
+                new AsyncTaskPost(NewRecipeActivity.this, "https://powerful-plains-95757.herokuapp.com/cadastrar-receita", "POST_RECEITA").execute(new Gson().toJson(recipe));
 
             }
         });
     }
-    
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
@@ -154,10 +154,11 @@ public class NewRecipeActivity extends GenericActivity {
             Recipe recipe = new Gson().fromJson(resul, Recipe.class);
             if(recipe != null){
                 editDescription.setText(recipe.getDescription());
-                byte[] decodedBytes = Base64.decode(recipe.getImage(), 0);
-                Bitmap bitmap = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
-                thumbnail.setImageBitmap(bitmap);
-
+                if(recipe.getImage() != null){
+                    byte[] decodedBytes = Base64.decode(recipe.getImage(), 0);
+                    Bitmap bitmap = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
+                    thumbnail.setImageBitmap(bitmap);
+                }
             }
         }
     }
