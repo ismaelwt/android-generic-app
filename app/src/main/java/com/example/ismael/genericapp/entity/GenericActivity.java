@@ -3,6 +3,7 @@ package com.example.ismael.genericapp.entity;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.view.MenuItem;
 
 import java.io.File;
 import java.io.IOException;
@@ -14,6 +15,17 @@ public class GenericActivity extends Activity {
 
     public void onResultRequisition(String resul, String idReq) {
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()){
+            case android.R.id.home:
+                onBackPressed();
+                break;
+
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     public static byte[] readFile(File file) throws IOException {

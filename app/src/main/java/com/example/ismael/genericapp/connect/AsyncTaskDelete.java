@@ -8,7 +8,7 @@ import com.example.ismael.genericapp.entity.GenericActivity;
 
 import java.util.HashMap;
 
-public class AsyncTaskGet extends AsyncTask<HashMap<String, Object>, Double, String>{
+public class AsyncTaskDelete extends AsyncTask<HashMap<String, Object>, Double, String> {
 
     private GenericActivity activity;
     private String urlServidor;
@@ -16,7 +16,7 @@ public class AsyncTaskGet extends AsyncTask<HashMap<String, Object>, Double, Str
     private ProgressDialog progress;
     private String result;
 
-    public AsyncTaskGet(GenericActivity activity, String urlServidor, String idcom) {
+    public AsyncTaskDelete(GenericActivity activity, String urlServidor, String idcom) {
         this.activity = activity;
         this.urlServidor = urlServidor;
         this.idcom = idcom;
@@ -49,7 +49,7 @@ public class AsyncTaskGet extends AsyncTask<HashMap<String, Object>, Double, Str
             String android_id = Settings.Secure.getString(this.activity.getContentResolver(), Settings.Secure.ANDROID_ID);
 
 
-            result = new Client(urlServidor, "getSessionID()", android_id).get(hmsend);
+            result = new Client(urlServidor, "getSessionID()", android_id).delete(hmsend);
 
             return  result;
 

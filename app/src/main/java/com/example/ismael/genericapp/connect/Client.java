@@ -45,8 +45,8 @@ public class Client {
             connection.setRequestProperty("Content-length", "0");
             connection.setUseCaches(false);
             connection.setAllowUserInteraction(false);
-            connection.setConnectTimeout(5000);
-            connection.setReadTimeout(5000);
+            connection.setConnectTimeout(8000);
+            connection.setReadTimeout(8000);
             connection.connect();
 
             int HttpResult = connection.getResponseCode();
@@ -93,10 +93,43 @@ public class Client {
                 return null;
             }
         } catch (MalformedURLException e) {
-            throw new InternalError("URL incorreta");
+            throw new InternalError(e.getMessage());
         } catch (IOException e) {
-            throw new InternalError("Erro efetuar autenticação");
+            throw new InternalError(e.getMessage());
         }
+    }
+
+    public String delete(HashMap<String, Object> param) {
+
+        URL url = null;
+        try {
+
+            url = new URL(urlServer);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("DELETE");
+            connection.setRequestProperty("Content-length", "0");
+            connection.setUseCaches(false);
+            connection.setAllowUserInteraction(false);
+            connection.setConnectTimeout(5000);
+            connection.setReadTimeout(5000);
+            connection.connect();
+
+            int HttpResult = connection.getResponseCode();
+
+            if(HttpResult == HttpURLConnection.HTTP_OK || HttpResult == HttpURLConnection.HTTP_CREATED) {
+                return convertStreamToString(connection.getInputStream());
+            } else {
+                return null;
+            }
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (ProtocolException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 
     public static void setParameters(String json, HttpURLConnection conexao) {

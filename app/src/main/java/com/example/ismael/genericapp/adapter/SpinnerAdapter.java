@@ -8,15 +8,16 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.example.ismael.genericapp.R;
+import com.example.ismael.genericapp.entity.Recipe;
 
 import java.util.List;
 
 
-public class SpinnerAdapter extends ArrayAdapter {
+public class SpinnerAdapter extends ArrayAdapter<Recipe> {
     private Context context;
-    private List<String> values;
+    private List<Recipe> values;
 
-    public SpinnerAdapter(Context context, int textViewResourceId, List<String> values) {
+    public SpinnerAdapter(Context context, int textViewResourceId, List<Recipe> values) {
         super(context, textViewResourceId, values);
         this.context = context;
         this.values = values;
@@ -27,7 +28,7 @@ public class SpinnerAdapter extends ArrayAdapter {
         return values.size();
     }
 
-    public String getItem(int position){
+    public Recipe getItem(int position){
         return values.get(position);
     }
 
@@ -42,7 +43,7 @@ public class SpinnerAdapter extends ArrayAdapter {
 
         TextView tv = (TextView) rootView.findViewById(R.id.spinner_item_text);
 
-        tv.setText(values.get(position));
+        tv.setText(values.get(position).getDescription());
 
         return rootView;
     }
@@ -51,7 +52,7 @@ public class SpinnerAdapter extends ArrayAdapter {
     public View getDropDownView(int position, View convertView, ViewGroup parent) {
         View rootView = LayoutInflater.from(context).inflate(R.layout.spin_item, parent, false);
         TextView tv = (TextView) rootView.findViewById(R.id.spinner_item_text);
-        tv.setText(values.get(position));
+        tv.setText(values.get(position).getDescription());
 
         return rootView;
     }

@@ -8,16 +8,21 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.ismael.genericapp.adapter.SpinnerAdapter;
+import com.example.ismael.genericapp.connect.AsyncTaskDelete;
 import com.example.ismael.genericapp.connect.AsyncTaskGet;
 import com.example.ismael.genericapp.connect.AsyncTaskPost;
 import com.example.ismael.genericapp.entity.GenericActivity;
@@ -29,6 +34,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 public class MainActivity extends GenericActivity {
@@ -37,6 +43,9 @@ public class MainActivity extends GenericActivity {
     private TextView text;
     private ListView listView;
     private Button btnNew;
+    private String oidRemove;
+    private List<Recipe> ls = new ArrayList<>();
+    private Integer positionRemove;
     private List<String> listaReceitas = new ArrayList<>();
 
     @Override
@@ -59,39 +68,56 @@ public class MainActivity extends GenericActivity {
             }
         });
 
-        //Button btn = (Button) findViewById(R.id.btn);
-        //Button btnPost = (Button) findViewById(R.id.btnPost);
-
-        /*btnPost.setOnClickListener(new View.OnClickListener() {
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Recipe itemAtPosition = (Recipe) parent.getItemAtPosition(position);
 
-                User user = new User();
-                user.setName("Ismael");
-                user.setUsername("ismaelnos5@gmail.com");
-                user.setPassword("1234");
-                user.setAdmin(true);
-
-                Gson gson = new Gson();
-
-                String json = gson.toJson(user);
-
-                new AsyncTaskPost(MainActivity.this, "http://192.168.25.11:3000/cadastrar",  "POST").execute(json);
+                Intent i = new Intent(MainActivity.this, NewRecipeActivity.class);
+                i.putExtra("id", itemAtPosition.get_id());
+                startActivity(i);
             }
         });
 
-        btn.setOnClickListener(new View.OnClickListener() {
+        registerForContextMenu(listView);
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
-            public void onClick(View v) {
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
 
-                new AsyncTaskGet(MainActivity.this, "https://murmuring-forest-27179.herokuapp.com/", "GET").execute();
+                Recipe recipe = (Recipe) parent.getItemAtPosition(position);
+                oidRemove = recipe.get_id();
+                positionRemove = position;
+
+
+                return false;
             }
-        });*/
+        });
     }
 
 
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v,
+                                    ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+
+        MenuItem menuitem = menu.add("Remover");
+        menuitem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+
+
+                if(oidRemove != null){
+                    new AsyncTaskDelete(MainActivity.this, "http://192.168.25.11:3000/delete/" + oidRemove, "DELETE").execute();
+                }
+
+                return false;
+            }
+        });
+    }
+
     private void getNewRecipe(){
-        new AsyncTaskGet(MainActivity.this, "http://192.168.25.11:3000/get-recipes", "GET_RECEITA").execute();
+        new AsyncTaskGet(MainActivity.this, "http://192.168.25.11:3000/get-recipes/", "GET_RECEITA").execute();
     }
 
     @Override
@@ -124,17 +150,18 @@ public class MainActivity extends GenericActivity {
         if(idReq.equals("GET") && resul != null){
             Toast.makeText(MainActivity.this, resul.toString(), Toast.LENGTH_SHORT).show();
         }else if(idReq.equals("GET_RECEITA")) {
+            if(!resul.isEmpty()){
+                Recipe[] r = new Gson().fromJson(resul, Recipe[].class);
+                ls = Arrays.asList(r);
+                SpinnerAdapter lss = new SpinnerAdapter(MainActivity.this, android.R.layout.simple_list_item_1, ls);
+                listView.setAdapter(lss);
+            }
+        }else if(idReq.equals("DELETE")) {
+            ls = new ArrayList<>();
 
             Recipe[] r = new Gson().fromJson(resul, Recipe[].class);
-            List<Recipe> ls = Arrays.asList(r);
-
-            for (Recipe l : ls) {
-                if(l.getDescription() != null){
-                    listaReceitas.add(0, l.getDescription());
-                }
-            }
-
-            ArrayAdapter<String> lss = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_list_item_1, listaReceitas);
+            ls = Arrays.asList(r);
+            SpinnerAdapter lss = new SpinnerAdapter(MainActivity.this, android.R.layout.simple_list_item_1, ls);
             listView.setAdapter(lss);
         }
     }
